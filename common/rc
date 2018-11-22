@@ -400,6 +400,10 @@ _test_mount()
         return $?
     fi
     _test_options mount
+    if [ "$FSTYP" == "aeon" ]; then
+       TEST_FS_MOUNT_OPTS="-o dax"
+    fi
+    echo "HEY"
     _mount -t $FSTYP $TEST_OPTIONS $TEST_FS_MOUNT_OPTS $SELINUX_MOUNT_OPTIONS $* $TEST_DEV $TEST_DIR
 }
 
@@ -613,6 +617,10 @@ _test_mkfs()
     ext2|ext3|ext4)
 	$MKFS_PROG -t $FSTYP -- -F $MKFS_OPTIONS $* $TEST_DEV
 	;;
+    aeon)
+    	$MOUNT_PROG -t $FSTYP $TEST_DEV $TEST_DIR -o init,dax
+	$UMOUNT_PROG $TEST_DIR
+        ;;
     *)
 	yes | $MKFS_PROG -t $FSTYP -- $MKFS_OPTIONS $* $TEST_DEV
 	;;

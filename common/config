@@ -314,6 +314,9 @@ _mount_opts()
 	ubifs)
 		export MOUNT_OPTIONS=$UBIFS_MOUNT_OPTIONS
 		;;
+	aeon)
+		export MOUNT_OPTIONS=
+		;;
 	*)
 		;;
 	esac
