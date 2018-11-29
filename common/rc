@@ -403,7 +403,6 @@ _test_mount()
     if [ "$FSTYP" == "aeon" ]; then
        TEST_FS_MOUNT_OPTS="-o dax"
     fi
-    echo "HEY"
     _mount -t $FSTYP $TEST_OPTIONS $TEST_FS_MOUNT_OPTS $SELINUX_MOUNT_OPTIONS $* $TEST_DEV $TEST_DIR
 }
 
