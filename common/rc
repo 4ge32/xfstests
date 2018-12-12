@@ -158,6 +158,8 @@ case "$FSTYP" in
     ubifs)
 	[ "$UBIUPDATEVOL_PROG" = "" ] && _fatal "ubiupdatevol not found"
 	;;
+    aeon)
+        ;;
 esac
 
 if [ ! -z "$REPORT_LIST" ]; then
@@ -401,7 +403,7 @@ _test_mount()
     fi
     _test_options mount
     if [ "$FSTYP" == "aeon" ]; then
-       TEST_FS_MOUNT_OPTS="-o dax"
+       TEST_FS_MOUNT_OPTS="-o init,dax"
     fi
     _mount -t $FSTYP $TEST_OPTIONS $TEST_FS_MOUNT_OPTS $SELINUX_MOUNT_OPTIONS $* $TEST_DEV $TEST_DIR
 }
@@ -753,6 +755,9 @@ _scratch_mkfs()
 		mkfs_cmd="yes | $MKFS_PROG -t $FSTYP --"
 		mkfs_filter="grep -v -e ^mkfs\.ocfs2"
 		;;
+	aeon)
+  		ecjp "SCRATCH MKFS"
+	        ;;
 	*)
 		mkfs_cmd="yes | $MKFS_PROG -t $FSTYP --"
 		mkfs_filter="cat"
