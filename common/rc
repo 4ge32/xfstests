@@ -619,8 +619,8 @@ _test_mkfs()
 	$MKFS_PROG -t $FSTYP -- -F $MKFS_OPTIONS $* $TEST_DEV
 	;;
     aeon)
-    	$MOUNT_PROG -t $FSTYP $TEST_DEV $TEST_DIR -o init,dax
-	$UMOUNT_PROG $TEST_DIR
+    	#$MOUNT_PROG -t $FSTYP $TEST_DEV $TEST_DIR -o init,dax
+	#$UMOUNT_PROG $TEST_DIR
         ;;
     *)
 	yes | $MKFS_PROG -t $FSTYP -- $MKFS_OPTIONS $* $TEST_DEV
@@ -756,7 +756,11 @@ _scratch_mkfs()
 		mkfs_filter="grep -v -e ^mkfs\.ocfs2"
 		;;
 	aeon)
-  		ecjp "SCRATCH MKFS"
+		_scratch_cleanup_files
+		mkfs_filter="cat"
+		$MOUNT_PROG -t $FSTYP $SCRATCH_DEV $SCRATCH_MNT -o init,dax
+		$UMOUNT_PROG $SCRATCH_MNT
+		return 0;
 	        ;;
 	*)
 		mkfs_cmd="yes | $MKFS_PROG -t $FSTYP --"
